@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpamShield - Detection Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="mail-shield.svg">
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #64748b;
+        --light: #0566c7;
+        --dark: #1e293b;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --border: #e2e8f0;
+        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      
+      body { 
+        font-family: 'Inter', sans-serif;
+        background-color: #569fe8;
+        color: var(--dark);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        padding: 0.8rem 0;
+      }
+      
+      .navbar-brand {
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--dark);
+      }
+      
+      .navbar-logo {
+        width: 32px;
+        height: 32px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      
+      .nav-link {
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+        border-radius: 6px;
+        margin: 0 0.1rem;
+        transition: all 0.2s ease;
+      }
+      
+      .nav-link:hover, .nav-link.active {
+        background-color: #f1f5f9;
+        color: var(--primary);
+      }
+      
+      .footer { 
+        background: #fff; 
+        border-top: 1px solid var(--border); 
+        margin-top: auto;
+        padding: 2rem 0 1.5rem;
+      }
+      
+      .card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+      }
+      
+      .card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      }
+      
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border: none;
+        padding: 12px 24px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+      }
+      
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+      }
+      
+      .btn-outline-secondary {
+        border: 2px solid var(--border);
+        color: var(--secondary);
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-outline-secondary:hover {
+        background: #f8fafc;
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+      
+      .btn-outline-warning {
+        border: 2px solid var(--border);
+        color: var(--warning);
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-outline-warning:hover {
+        background: #fffbeb;
+        border-color: var(--warning);
+        color: var(--warning);
+      }
+      
+      .btn-outline-success {
+        border: 2px solid var(--border);
+        color: var(--success);
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-outline-success:hover {
+        background: #ecfdf5;
+        border-color: var(--success);
+        color: var(--success);
+      }
+      
+      .btn-success {
+        background: linear-gradient(135deg, var(--success), #059669);
+        border: none;
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+      }
+      
+      .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+      }
+      
+      .form-control {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 16px;
+        transition: all 0.2s ease;
+      }
+      
+      .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+      }
+      
+      .form-select {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 16px;
+        transition: all 0.2s ease;
+      }
+      
+      .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+      }
+      
+      .alert {
+        border-radius: 10px;
+        border: none;
+        padding: 16px;
+      }
+      
+      .alert-warning {
+        background-color: #fffbeb;
+        color: #92400e;
+      }
+      
+      .alert-success {
+        background-color: #ecfdf5;
+        color: #065f46;
+      }
+      
+      .alert-info {
+        background-color: #eff6ff;
+        color: #1e40af;
+      }
+      
+      .alert-danger {
+        background-color: #fef2f2;
+        color: #991b1b;
+      }
+      
+      .badge {
+        font-weight: 600;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      
+      .list-group-item {
+        border: 1px solid var(--border);
+        padding: 12px 16px;
+        border-radius: 8px !important;
+        margin-bottom: 8px;
+      }
+      
+      .progress {
+        height: 8px;
+        border-radius: 4px;
+        background-color: #f1f5f9;
+      }
+      
+      .progress-bar {
+        border-radius: 4px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      }
+      
+      .modal-content {
+        border: none;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+      }
+      
+      .modal-header {
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem;
+      }
+      
+      .modal-body {
+        padding: 1.5rem;
+      }
+      
+      .recent-list { 
+        max-height: 200px; 
+        overflow-y: auto; 
+      }
+      
+      .stats-card { 
+        background: #fff; 
+        border: 1px solid var(--border); 
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        padding: 1.5rem;
+      }
+      
+      /* Animation utilities */
+      .fade-in {
+        animation: fadeIn 0.6s ease forwards;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="mail-shield.svg" alt="Logo" class="navbar-logo"/>
+          <span>SpamShield</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#" id="nav-home">Detector</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" id="nav-about" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" id="nav-help" data-bs-toggle="modal" data-bs-target="#helpModal">Help</a></li>
+           
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container py-5">
+      <div class="row mb-4">
+        <div class="col-12 text-center">
+          <h1 style="margin:0 0 16px; font:800 2.4rem/1.2 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; letter-spacing:-0.02em; background:linear-gradient(90deg,#111827,#4f46e5); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 1px 0 rgba(0,0,0,0.04);">Spam Detection</h1>
+
+          <p class="text-muted">Analyze messages in real-time with our advanced machine learning model</p>
+        </div>
+      </div>
+      
+      <div id="root"></div>
+    </div>
+    
+    <footer class="footer">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h6 class="fw-bold mb-0">SpamShield</h6>
+            <p class="text-muted small mb-0">Advanced machine learning spam detection</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p class="text-muted small mb-0">
+              &copy; 2024 SpamShield &mdash; 
+              <a href="mailto:support@spamshield.com" class="text-decoration-none">Contact Support</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabIndex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+      <div class="modal-dialog"><div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="aboutModalLabel">About SpamShield</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>SpamShield</strong> uses machine learning to classify email or SMS messages as spam or not spam. You can enter a message, predict, and even retrain the model with your own data.</p>
+          <ul>
+            <li>Backend: FastAPI (Python)</li>
+            <li>Frontend: React + Bootstrap</li>
+            <li>Model: Scikit-learn with advanced NLP</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+    
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabIndex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+      <div class="modal-dialog"><div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">Help & Instructions</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ol>
+            <li>Enter your email or SMS message in the box.</li>
+            <li>Click <strong>Predict</strong> to see if it's spam.</li>
+            <li>Click <strong>Train Model</strong> to retrain with new data (if available).</li>
+            <li>Use <strong>Clear</strong> to reset, <strong>Copy Result</strong> to copy prediction.</li>
+            <li>Recent predictions are shown below for your reference.</li>
+          </ol>
+        </div>
+      </div></div>
+    </div>
+    
+    <script>
+      const { useState } = React;
+      
+      function App(){
+        const [message, setMessage] = useState("");
+        const [loading, setLoading] = useState(false);
+        const [result, setResult] = useState(null);
+        const [error, setError] = useState(null);
+        const [recent, setRecent] = useState([]);
+        const [stats, setStats] = useState({ accuracy: null, f1_spam: null });
+
+        const predict = async () => {
+          setError(null); setResult(null);
+          if(!message.trim()) { setError("Please enter a message."); return; }
+          try{
+            setLoading(true);
+            const res = await fetch('/api/predict', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message })
+            });
+            if(!res.ok){ throw new Error(await res.text()); }
+            const data = await res.json();
+            setResult(data);
+            setRecent(r => [{
+              text: message,
+              label: data.label,
+              prob: data.spam_probability
+            }, ...r].slice(0, 8));
+          }catch(e){
+            setError(e.message || 'Prediction failed');
+          }finally{ setLoading(false); }
+        };
+
+        const train = async () => {
+          setError(null);
+          try{
+            setLoading(true);
+            const res = await fetch('/api/train', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({})
+            });
+            if(!res.ok){ throw new Error(await res.text()); }
+            const data = await res.json();
+            setResult({ label: 'trained', spam_probability: 0, ...data });
+            setStats({ accuracy: data.accuracy, f1_spam: data.f1_spam });
+          }catch(e){
+            setError(e.message || 'Training failed');
+          }finally{ setLoading(false); }
+        };
+
+        const clear = () => {
+          setMessage(""); setResult(null); setError(null);
+        };
+
+        const copyResult = () => {
+          if(result){
+            const text = result.label === 'trained'
+              ? `Model trained. Acc=${Number(result.accuracy).toFixed(4)} F1=${Number(result.f1_spam).toFixed(4)}`
+              : `Prediction: ${String(result.label).toUpperCase()} | Spam probability: ${Number(result.spam_probability).toFixed(4)}`;
+            navigator.clipboard.writeText(text);
+          }
+        };
+
+        return (
+          React.createElement('div', {className: 'fade-in'},
+            React.createElement('div', { className: 'row g-4' },
+              React.createElement('div', { className: 'col-lg-8' },
+                React.createElement('div', { className: 'card p-4 mb-4' },
+                  React.createElement('div', { className: 'mb-3' },
+                    React.createElement('label', { className: 'form-label fw-semibold' }, 'Enter message to analyze'),
+                    React.createElement('textarea', {
+                      className: 'form-control', rows: 5,
+                      value: message, onChange: (e) => setMessage(e.target.value),
+                      placeholder: 'Type or paste your email/SMS message here...',
+                      style: { resize: 'vertical' }
+                    })
+                  ),
+                  loading ? (
+                    React.createElement('div', { className: 'mb-3' },
+                      React.createElement('div', { className: 'd-flex align-items-center' },
+                        React.createElement('div', { className: 'flex-grow-1 me-2' },
+                          React.createElement('div', { className: 'progress' },
+                            React.createElement('div', { className: 'progress-bar progress-bar-striped progress-bar-animated', style: { width: '100%' } })
+                          )
+                        ),
+                        React.createElement('div', { className: 'text-muted small' }, 'Processing...')
+                      )
+                    )
+                  ) : null,
+                  error ? React.createElement('div', { className: 'alert alert-danger mb-3' }, 
+                    React.createElement('i', {className: 'bi bi-exclamation-triangle-fill me-2'}), error) : null,
+                  result ? (
+                    React.createElement('div', { className: 'alert ' + (result.label === 'trained' ? 'alert-info' : (result.label === 'spam' ? 'alert-warning' : 'alert-success')) + ' mb-3' },
+                      React.createElement('div', {className: 'd-flex align-items-center'},
+                        React.createElement('i', {className: 'bi ' + (result.label === 'trained' ? 'bi-check-circle-fill' : (result.label === 'spam' ? 'bi-shield-exclamation' : 'bi-shield-check')) + ' me-2'}),
+                        React.createElement('div', null,
+                          result.label === 'trained'
+                            ? `Model trained successfully with accuracy: ${Number(result.accuracy).toFixed(4)} and F1 score: ${Number(result.f1_spam).toFixed(4)}`
+                            : `Prediction: ${String(result.label).toUpperCase()} | Spam probability: ${Number(result.spam_probability).toFixed(4)}`
+                        )
+                      )
+                    )
+                  ) : null,
+                  React.createElement('div', { className: 'd-flex gap-2 flex-wrap mb-3' },
+                    React.createElement('button', { className: 'btn btn-primary', onClick: predict, disabled: loading }, 
+                      React.createElement('i', {className: 'bi bi-search me-2'}), 'Predict'),
+                    React.createElement('button', { className: 'btn btn-outline-secondary', onClick: train, disabled: loading }, 
+                      React.createElement('i', {className: 'bi bi-gear me-2'}), 'Train Model'),
+                    React.createElement('button', { className: 'btn btn-outline-warning', onClick: clear, disabled: loading }, 
+                      React.createElement('i', {className: 'bi bi-x-circle me-2'}), 'Clear'),
+                    React.createElement('button', { className: 'btn btn-outline-success', onClick: copyResult, disabled: !result }, 
+                      React.createElement('i', {className: 'bi bi-clipboard me-2'}), 'Copy Result')
+                  )
+                ),
+                
+                // Training Data Submission Form
+                React.createElement('div', { className: 'card p-4 mb-4' },
+                  React.createElement('h6', { className: 'fw-semibold mb-3' }, 'Add Training Example'),
+                  React.createElement('form', {
+                    onSubmit: async (e) => {
+                      e.preventDefault();
+                      const trainMsg = e.target.trainMsg.value.trim();
+                      const trainLabel = e.target.trainLabel.value;
+                      if (!trainMsg) { setError('Please enter a message for training.'); return; }
+                      if (!trainLabel) { setError('Please select a label.'); return; }
+                      setError(null);
+                      setLoading(true);
+                      try {
+                        const res = await fetch('/api/add_train_data', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ message: trainMsg, label: trainLabel })
+                        });
+                        if (!res.ok) throw new Error(await res.text());
+                        setResult({ label: 'added', spam_probability: 0 });
+                        e.target.reset();
+                      } catch (err) {
+                        setError(err.message || 'Failed to add training data');
+                      } finally {
+                        setLoading(false);
+                      }
+                    }
+                  },
+                    React.createElement('div', { className: 'row g-2 align-items-end' },
+                      React.createElement('div', { className: 'col-md-7' },
+                        React.createElement('textarea', {
+                          className: 'form-control',
+                          name: 'trainMsg',
+                          rows: 2,
+                          placeholder: 'Enter a new message for training...'
+                        })
+                      ),
+                      React.createElement('div', { className: 'col-md-3' },
+                        React.createElement('select', {
+                          className: 'form-select',
+                          name: 'trainLabel',
+                          defaultValue: ''
+                        },
+                          React.createElement('option', { value: '', disabled: true }, 'Select label'),
+                          React.createElement('option', { value: 'spam' }, 'Spam'),
+                          React.createElement('option', { value: 'ham' }, 'Ham')
+                        )
+                      ),
+                      React.createElement('div', { className: 'col-md-2' },
+                        React.createElement('button', {
+                          type: 'submit',
+                          className: 'btn btn-success w-100',
+                          disabled: loading
+                        }, 
+                        React.createElement('i', {className: 'bi bi-plus-circle me-1'}), 'Add')
+                      )
+                    )
+                  )
+                ),
+                
+                // Recent Predictions
+                React.createElement('div', { className: 'card p-4' },
+                  React.createElement('h6', { className: 'fw-semibold mb-3' }, 
+                    React.createElement('i', {className: 'bi bi-clock-history me-2'}), 'Recent Predictions'),
+                  React.createElement('ul', { className: 'list-group recent-list' },
+                    recent.length === 0 ? 
+                      React.createElement('li', { className: 'list-group-item text-muted text-center py-4' }, 
+                        React.createElement('i', {className: 'bi bi-inbox display-6 d-block mb-2 text-light'}),
+                        'No predictions yet. Analyze a message to see results here.') :
+                    recent.map((r, i) => React.createElement('li', { key: i, className: 'list-group-item' },
+                      React.createElement('div', {className: 'd-flex align-items-center justify-content-between'},
+                        React.createElement('span', { className: 'badge ' + (r.label === 'spam' ? 'bg-danger' : 'bg-success') + ' me-2' }, 
+                          r.label.toUpperCase()),
+                        React.createElement('span', { className: 'text-secondary small' }, Number(r.prob).toFixed(2))
+                      ),
+                      React.createElement('div', {className: 'mt-2 text-break'}, 
+                        r.text.length > 60 ? r.text.slice(0, 60) + '…' : r.text
+                      )
+                    ))
+                  )
+                )
+              ),
+              
+              // Sidebar with stats and info
+              React.createElement('div', { className: 'col-lg-4' },
+                React.createElement('div', { className: 'stats-card mb-4' },
+                  React.createElement('h6', { className: 'fw-semibold mb-3' }, 
+                    React.createElement('i', {className: 'bi bi-graph-up me-2'}), 'Model Performance'),
+                  stats.accuracy !== null ? (
+                    React.createElement('div', null,
+                      React.createElement('div', {className: 'mb-2'}, 
+                        React.createElement('div', {className: 'd-flex justify-content-between mb-1'},
+                          React.createElement('span', null, 'Accuracy'),
+                          React.createElement('span', {className: 'fw-bold'}, Number(stats.accuracy).toFixed(4))
+                        ),
+                        React.createElement('div', {className: 'progress'},
+                          React.createElement('div', {className: 'progress-bar', style: {width: `${stats.accuracy * 100}%`}})
+                        )
+                      ),
+                      React.createElement('div', null, 
+                        React.createElement('div', {className: 'd-flex justify-content-between mb-1'},
+                          React.createElement('span', null, 'F1 (spam)'),
+                          React.createElement('span', {className: 'fw-bold'}, Number(stats.f1_spam).toFixed(4))
+                        ),
+                        React.createElement('div', {className: 'progress'},
+                          React.createElement('div', {className: 'progress-bar', style: {width: `${stats.f1_spam * 100}%`}})
+                        )
+                      )
+                    )
+                  ) : React.createElement('div', { className: 'text-muted text-center py-3' }, 
+                    React.createElement('i', {className: 'bi bi-bar-chart display-6 d-block mb-2 text-light'}),
+                    'No stats available. Train model to see performance metrics.')
+                ),
+                
+                React.createElement('div', { className: 'stats-card' },
+                  React.createElement('h6', { className: 'fw-semibold mb-3' }, 
+                    React.createElement('i', {className: 'bi bi-info-circle me-2'}), 'How it works'),
+                  React.createElement('ul', { className: 'mb-0 ps-3' },
+                    React.createElement('li', {className: 'mb-2'}, 'Enter a message and click Predict to analyze it.'),
+                    React.createElement('li', {className: 'mb-2'}, 'See if it is classified as spam or ham.'),
+                    React.createElement('li', {className: 'mb-2'}, 'Retrain the model with new data to improve accuracy.'),
+                    React.createElement('li', {className: 'mb-0'}, 'Recent predictions are shown for reference.')
+                  )
+                )
+              )
+            )
+          )
+        );
+      }
+      
+      ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

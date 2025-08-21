@@ -1,0 +1,16 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mailShieldGradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#007bff"/>
+      <stop offset="1" stop-color="#0056b3"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="8" fill="url(#mailShieldGradient)"/>
+  <g>
+    <path d="M8 13a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v2.5l-12 7.5-12-7.5V13z" fill="#fff"/>
+    <path d="M8 16.5V27a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V16.5l-12 7.5-12-7.5z" fill="#e3eafc"/>
+    <path d="M20 24l12-7.5V27a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V16.5L20 24z" fill="#b6d0fa"/>
+    <path d="M20 36c-6.627 0-12-5.373-12-12V10.5a2 2 0 0 1 1.2-1.82l10-4.5a2 2 0 0 1 1.6 0l10 4.5A2 2 0 0 1 32 10.5V24c0 6.627-5.373 12-12 12z" fill="#fff" fill-opacity="0.15"/>
+    <path d="M20 36c-6.627 0-12-5.373-12-12V10.5a2 2 0 0 1 1.2-1.82l10-4.5a2 2 0 0 1 1.6 0l10 4.5A2 2 0 0 1 32 10.5V24c0 6.627-5.373 12-12 12z" stroke="#fff" stroke-width="2"/>
+  </g>
+</svg>

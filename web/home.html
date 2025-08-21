@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpamShield - Advanced Email Protection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="mail-shield.svg">
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #64748b;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --success: #10b981;
+        --border: #e2e8f0;
+        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      
+      body { 
+        font-family: 'Inter', sans-serif;
+        background-color: #f9fafb;
+        color: var(--dark);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        padding: 0.8rem 0;
+      }
+      
+      .navbar-brand {
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--dark);
+      }
+      
+      .navbar-logo {
+        width: 32px;
+        height: 32px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      
+      .nav-link {
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+        border-radius: 6px;
+        margin: 0 0.1rem;
+        transition: all 0.2s ease;
+      }
+      
+      .nav-link:hover, .nav-link.active {
+        background-color: #f1f5f9;
+        color: var(--primary);
+      }
+      
+      .hero-section {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 100px 0 80px;
+        margin-bottom: 80px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.5;
+      }
+      
+      .display-4 {
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+      }
+      
+      .lead {
+        font-weight: 400;
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+      
+      .feature-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+        height: 100%;
+        overflow: hidden;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      }
+      
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+      }
+      
+      .feature-icon i {
+        font-size: 1.8rem;
+      }
+      
+      .stats-section {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+        padding: 60px 40px;
+        margin: 60px 0;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .stats-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      }
+      
+      .stat-item {
+        text-align: center;
+        padding: 20px;
+        position: relative;
+        z-index: 1;
+      }
+      
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+        display: block;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+      }
+      
+      .btn-primary-custom {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border: none;
+        padding: 14px 32px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+      }
+      
+      .btn-primary-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+      }
+      
+      .btn-outline-light-custom {
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        background: transparent;
+      }
+      
+      .btn-outline-light-custom:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+        transform: translateY(-2px);
+      }
+      
+      .form-control {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 16px;
+        transition: all 0.2s ease;
+      }
+      
+      .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+      }
+      
+      .footer { 
+        background: #fff; 
+        border-top: 1px solid var(--border); 
+        margin-top: auto;
+        padding: 3rem 0 2rem;
+      }
+      
+      .modal-content {
+        border: none;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+      }
+      
+      .modal-header {
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem;
+      }
+      
+      .modal-body {
+        padding: 1.5rem;
+      }
+      
+      .section-title {
+        position: relative;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+        font-weight: 700;
+      }
+      
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary), var(--primary-dark));
+        border-radius: 2px;
+      }
+      
+      .section-title.text-start::after {
+        left: 0;
+        transform: none;
+      }
+      
+      /* Animation utilities */
+      .fade-in {
+        animation: fadeIn 0.6s ease forwards;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .delay-1 { animation-delay: 0.2s; }
+      .delay-2 { animation-delay: 0.4s; }
+      .delay-3 { animation-delay: 0.6s; }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="mail-shield.svg" alt="Logo" class="navbar-logo"/>
+          <span>SpamShield</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link active" href="home.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html">Detector</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 fade-in">
+            <h1 class="display-4 fw-bold mb-4">AI-Powered Spam Protection</h1>
+            <p class="lead mb-4">Secure your communications with our advanced machine learning algorithms. Real-time detection for email and SMS with industry-leading accuracy.</p>
+            <form action="/detect" method="post" class="mb-4 p-4 bg-white bg-opacity-10 rounded-3 shadow-sm">
+              <div class="mb-3">
+                <label for="emailText" class="form-label fw-bold text-white">Analyze your message:</label>
+                <textarea id="emailText" name="emailText" rows="6" class="form-control" placeholder="Paste email or SMS content here..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-primary-custom w-100">
+                <i class="bi bi-shield-check me-2"></i>Detect Spam
+              </button>
+            </form>
+            <div class="d-flex gap-3 flex-wrap">
+              <a href="index.html" class="btn btn-light btn-primary-custom">
+                <i class="bi bi-play-circle me-2"></i>Live Demo
+              </a>
+              <a href="train.html" class="btn btn-outline-light-custom">
+                <i class="bi bi-plus-circle me-2"></i>Custom Training
+              </a>
+              <button class="btn btn-outline-light-custom" data-bs-toggle="modal" data-bs-target="#demoModal">
+                <i class="bi bi-info-circle me-2"></i>How It Works
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center fade-in delay-1">
+            <div class="feature-icon mx-auto mb-4" style="width: 120px; height: 120px;">
+              <i class="bi bi-shield-check text-white" style="font-size: 3rem;"></i>
+            </div>
+            <div class="bg-white bg-opacity-10 p-4 rounded-3 mt-4">
+              <h5 class="text-white">Enterprise-Grade Security</h5>
+              <p class="text-white-50 mb-0">Trusted by businesses worldwide to filter millions of messages daily</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-12">
+          <h2 class="fw-bold mb-3 section-title">Why Choose Our Solution?</h2>
+          <p class="text-muted">Advanced machine learning technology meets enterprise-grade security</p>
+        </div>
+      </div>
+      
+      <div class="row g-4 mb-5">
+        <div class="col-md-4 fade-in">
+          <div class="card feature-card p-4">
+            <div class="feature-icon">
+              <i class="bi bi-lightning-charge text-white"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Real-Time Detection</h5>
+            <p class="text-muted">Process messages in milliseconds with our optimized algorithms. No delays in your workflow.</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in delay-1">
+          <div class="card feature-card p-4">
+            <div class="feature-icon">
+              <i class="bi bi-bullseye text-white"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Precision Accuracy</h5>
+            <p class="text-muted">Our models are continuously trained on diverse datasets to maintain industry-leading accuracy rates.</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in delay-2">
+          <div class="card feature-card p-4">
+            <div class="feature-icon">
+              <i class="bi bi-gear text-white"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Adaptive Learning</h5>
+            <p class="text-muted">Customize and retrain the model with your specific data to address unique threat patterns.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="stats-section">
+        <div class="row">
+          <div class="col-md-3 stat-item">
+            <span class="stat-number">99.7%</span>
+            <span>Accuracy Rate</span>
+          </div>
+          <div class="col-md-3 stat-item">
+            <span class="stat-number">&lt;30ms</span>
+            <span>Avg. Response Time</span>
+          </div>
+          <div class="col-md-3 stat-item">
+            <span class="stat-number">2M+</span>
+            <span>Daily Analysis</span>
+          </div>
+          <div class="col-md-3 stat-item">
+            <span class="stat-number">0.01%</span>
+            <span>False Positives</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- How It Works -->
+      <div class="row text-center mb-5">
+        <div class="col-12">
+          <h2 class="fw-bold mb-5 section-title">How It Works</h2>
+        </div>
+        <div class="col-md-4 mb-4 fade-in">
+          <div class="feature-icon mx-auto mb-3">
+            <i class="bi bi-envelope text-white"></i>
+          </div>
+          <h5 class="fw-bold">1. Input Content</h5>
+          <p class="text-muted">Paste or type your email/SMS content into our secure analysis interface.</p>
+        </div>
+        <div class="col-md-4 mb-4 fade-in delay-1">
+          <div class="feature-icon mx-auto mb-3">
+            <i class="bi bi-cpu text-white"></i>
+          </div>
+          <h5 class="fw-bold">2. AI Processing</h5>
+          <p class="text-muted">Our neural network analyzes content using advanced NLP and pattern recognition.</p>
+        </div>
+        <div class="col-md-4 mb-4 fade-in delay-2">
+          <div class="feature-icon mx-auto mb-3">
+            <i class="bi bi-graph-up text-white"></i>
+          </div>
+          <h5 class="fw-bold">3. Detailed Results</h5>
+          <p class="text-muted">Receive comprehensive analysis with confidence scoring and threat breakdown.</p>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="text-center mb-5 fade-in">
+        <div class="card feature-card p-5 border-0">
+          <h3 class="fw-bold mb-3">Ready to Enhance Your Security?</h3>
+          <p class="text-muted mb-4">Join thousands of satisfied users protecting their communications.</p>
+          <a href="index.html" class="btn btn-primary btn-lg btn-primary-custom px-5">
+            <i class="bi bi-shield-check me-2"></i>Get Started
+          </a>
+          <div class="mt-4">
+            <p class="text-muted small mb-0">No credit card required • Free 14-day trial</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <h6 class="fw-bold mb-3">SpamShield</h6>
+            <p class="text-muted small mb-4">Enterprise-grade spam detection powered by cutting-edge machine learning technology.</p>
+            <div class="d-flex gap-3">
+              <a href="#" class="text-secondary"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="text-secondary"><i class="bi bi-github"></i></a>
+              <a href="#" class="text-secondary"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+            <h6 class="fw-bold mb-3">Product</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="index.html" class="text-decoration-none text-muted">Detector</a></li>
+              <li class="mb-2"><a href="train.html" class="text-decoration-none text-muted">Training</a></li>
+              <li class="mb-2"><a href="#" class="text-decoration-none text-muted">API</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+            <h6 class="fw-bold mb-3">Resources</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Documentation</a></li>
+              <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Case Studies</a></li>
+              <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Blog</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-4">
+            <h6 class="fw-bold mb-3">Company</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#" class="text-decoration-none text-muted">About</a></li>
+              <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Careers</a></li>
+              <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr class="my-4">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="text-muted small mb-0">&copy; 2024 SpamShield Inc. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="text-decoration-none text-muted small me-3">Privacy Policy</a>
+            <a href="#" class="text-decoration-none text-muted small">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">About SpamShield</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>SpamShield</strong> is an enterprise-grade machine learning platform designed to accurately classify email and SMS messages as spam or legitimate content.</p>
+            
+            <h6 class="fw-bold mt-4">Technology Stack:</h6>
+            <ul>
+              <li><strong>Backend:</strong> FastAPI (Python) for high-performance API</li>
+              <li><strong>Frontend:</strong> React + Bootstrap for responsive UI</li>
+              <li><strong>Machine Learning:</strong> Transformer-based models with advanced NLP</li>
+              <li><strong>Infrastructure:</strong> Kubernetes cluster with auto-scaling</li>
+            </ul>
+
+            <h6 class="fw-bold mt-4">Enterprise Features:</h6>
+            <ul>
+              <li>Real-time spam detection with industry-leading accuracy</li>
+              <li>Custom model training with proprietary data</li>
+              <li>Comprehensive analytics dashboard</li>
+              <li>RESTful API for seamless integration</li>
+              <li>SOC 2 compliant security practices</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="contactModalLabel">Contact Our Team</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Reach out for support, technical questions, or enterprise pricing.</p>
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-light rounded-circle p-2 me-3">
+                <i class="bi bi-envelope text-primary"></i>
+              </div>
+              <div>
+                <div class="fw-bold">Email</div>
+                <a href="mailto:support@spamshield.com" class="text-decoration-none">support@spamshield.com</a>
+              </div>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-light rounded-circle p-2 me-3">
+                <i class="bi bi-github text-primary"></i>
+              </div>
+              <div>
+                <div class="fw-bold">GitHub</div>
+                <span>github.com/spamshield</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="bg-light rounded-circle p-2 me-3">
+                <i class="bi bi-file-text text-primary"></i>
+              </div>
+              <div>
+                <div class="fw-bold">Documentation</div>
+                <span>docs.spamshield.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo Modal -->
+    <div class="modal fade" id="demoModal" tabindex="-1" aria-labelledby="demoModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="demoModalLabel">SpamShield Quick Start</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h6 class="fw-bold">Getting Started:</h6>
+            <ol>
+              <li><strong>Navigate to Detector:</strong> Click "Live Demo" or use the navigation menu</li>
+              <li><strong>Enter Content:</strong> Paste or type your email/SMS content in the text area</li>
+              <li><strong>Initiate Analysis:</strong> Click "Analyze" to process the message</li>
+              <li><strong>Review Results:</strong> Examine the classification and confidence metrics</li>
+              <li><strong>Optional Training:</strong> Improve accuracy by training with domain-specific data</li>
+            </ol>
+            
+            <h6 class="fw-bold mt-4">Best Practices:</h6>
+            <ul>
+              <li>Include complete message content for optimal analysis</li>
+              <li>Currently optimized for English language content</li>
+              <li>Longer messages typically yield more accurate predictions</li>
+              <li>Use the training feature to customize for your specific needs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Simple animation on scroll
+      document.addEventListener('DOMContentLoaded', function() {
+        const fadeElems = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.visibility = 'visible';
+              entry.target.classList.add('fade-in');
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        fadeElems.forEach(elem => {
+          elem.style.visibility = 'hidden';
+          observer.observe(elem);
+        });
+      });
+    </script>
+  </body>
+</html>
